@@ -5,7 +5,7 @@ public class Consumidor1 implements Runnable {
 
     public Consumidor1(Vector<String> armz) throws Exception{
         if (armz == null)
-            new Exception("Armazenamento nulo");
+            throw new Exception("Armazenamento nulo");
         else
             this.armazenamento = armz;
     }
@@ -27,7 +27,7 @@ public class Consumidor1 implements Runnable {
     }
 
     public void run(){
-
+        while (!this.fim){
         if (this.armazenamento.size()==0)
             this.tarefa.yield();
         else {
@@ -35,6 +35,15 @@ public class Consumidor1 implements Runnable {
             this.armazenamento.remove(0);
             System.out.println(log);
             try{this.tarefa.sleep(10);} catch (Exception error){}
+            }
+        }
+
+        while (this.armazenamento.size()!=0)
+        {
+            String log = this.armazenamento.get(0);
+            this.armazenamento.remove(0);
+            System.out.println (log);
+            try { this.tarefa.sleep (600); } catch (Exception erro) {}
         }
 
     }
